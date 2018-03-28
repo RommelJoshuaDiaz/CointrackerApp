@@ -20,7 +20,7 @@ import java.text.FieldPosition
  */
 
 class CoinViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
-    var coinIcon = itemView.coin_icon
+    var coinIcon = itemView.coinIcon // ICON
     var coinSymbol = itemView.coinSymbol
     var coinName = itemView.coinName
     var coinPrice = itemView.priceUsd
@@ -39,12 +39,16 @@ class CoinAdapter(recyclerView: RecyclerView,internal var activity: Activity, va
     var totalItemCount:Int=0
 
     init{
-        val linearLayout = recyclerView.layoutManager as LinearLayoutManager
+        val linearLayout = recyclerView?.layoutManager as LinearLayoutManager?
     recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
-            totalItemCount = linearLayout.itemCount
-            lastVisibleItem = linearLayout.findLastVisibleItemPosition()
+            if (linearLayout != null) {
+                totalItemCount = linearLayout.itemCount
+            }
+            if (linearLayout != null) {
+                lastVisibleItem = linearLayout.findLastVisibleItemPosition()
+            }
             if(!isLoading && totalItemCount <= lastVisibleItem+visibleThreshold)
             {
                 if(loadMore != null)
@@ -86,31 +90,32 @@ class CoinAdapter(recyclerView: RecyclerView,internal var activity: Activity, va
         item.sevenDayChange.text = coinModel.percent_change_7d+"%"
 
         Picasso.with(activity.baseContext)
-                .load(StringBuilder(Common.imageUrl)
+                .load(StringBuilder(Common.imageUrl) // IMAGE URL
                         .append(coinModel.symbol!!.toLowerCase())
                         .append(".png")
                         .toString())
+                .into(item.coinIcon) // -> ICON
 
         //set color
         item.oneHourChange.setTextColor(
                 if (coinModel.percent_change_1h!!.contains("-"))
                     Color.parseColor("#FF0000")
         else
-                    Color.parseColor("32CD32")
+                    Color.parseColor("#32CD32")
         )
 
         item.twentyFourChange.setTextColor(
                 if (coinModel.percent_change_24h!!.contains("-"))
                     Color.parseColor("#FF0000")
                 else
-                    Color.parseColor("32CD32")
+                    Color.parseColor("#32CD32")
         )
 
         item.sevenDayChange.setTextColor(
                 if (coinModel.percent_change_7d!!.contains("-"))
                     Color.parseColor("#FF0000")
                 else
-                    Color.parseColor("32CD32")
+                    Color.parseColor("#32CD32")
         )
 
     }
