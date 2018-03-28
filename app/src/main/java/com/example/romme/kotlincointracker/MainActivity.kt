@@ -116,14 +116,17 @@ class MainActivity : AppCompatActivity(),ILoadMore{
         }
 
         // in tutorial 37:00
-        coin_recycler_view.layoutManager = LinearLayoutManager(this)
+          // coin_recycler_view.layoutManager = LinearLayoutManager(this)
+        //    coin_recycler_view.layoutManager = LinearLayoutManager(this)
         setUpAdapter()
     }
 
     private fun setUpAdapter () {
+
         adapter = CoinAdapter(coin_recycler_view as RecyclerView, this@MainActivity,items)
         (coin_recycler_view as RecyclerView).adapter = adapter
         adapter.setLoadMore(this)
+        (coin_recycler_view as RecyclerView).layoutManager = LinearLayoutManager(this)
     }
 }
 
